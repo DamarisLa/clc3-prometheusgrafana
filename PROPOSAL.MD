@@ -10,7 +10,7 @@ With grafana we will visualize the traffic over time.
 The used cloud service provider is google cloud platform.
 
 1) Each of us implements a service in a container. 
-2) Each container run in a pod in the kubernetes cluster
+2) Each container runs in a pod in the kubernetes cluster
 3) Prometheus is setup in the kubernetes cluster
 4) Prometheus is setup to alert user via mail
 5) Grafana is setup in the kubernetes cluster
@@ -19,7 +19,7 @@ The used cloud service provider is google cloud platform.
 
 
 - Haijes:  Implementation of a service, sets visualization up, prepares live demo
-- Lattimer: Implementation of a service, writing of YAML file and deploys all services (including prometheus and grafana).
+- Lattimer: Implementation of a service, writing of YAML file to deploy all services (including prometheus and grafana)
 - Schinninger: Implementation of a service, setup the alert manager 
 
 
