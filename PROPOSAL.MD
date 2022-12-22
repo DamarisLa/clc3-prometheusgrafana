@@ -17,8 +17,8 @@ With grafana we will visualize the traffic over time.
 7) Live demo is prepared
 
 
-Haijes: Implementation of a service, sets vizualization up, prepares live demo
-Lattimer: Implementation of a service, writing of YAML file to deploy all services (including prometheus and grafana)
-Schinninger: Implementation of a service, setup the alert manager 
+- Haijes: Implementation of a service, sets vizualization up, prepares live demo
+- Lattimer: Implementation of a service, writing of YAML file to deploy all services (including prometheus and grafana)
+- Schinninger: Implementation of a service, setup the alert manager 
 
 
