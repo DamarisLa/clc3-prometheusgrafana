@@ -1,7 +1,7 @@
 ![image](https://user-images.githubusercontent.com/62024017/209229521-887fdb84-5697-411f-813f-1e59c2f83f49.png)
 
 
-PROPOSAL:
+**PROPOSAL**
 
 The goal is to observe a Kubernetes cluster with services running in pods and get metrics about their health status. For this purpose we use Prometheus.
 The services are implemented in python and built as docker images. One service holds a sleep function and one is  throwing server not available exceptions. One of the pods might hold a database. 
