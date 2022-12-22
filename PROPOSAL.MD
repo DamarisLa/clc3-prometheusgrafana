@@ -1,8 +1,5 @@
+![image](https://user-images.githubusercontent.com/62024017/209229521-887fdb84-5697-411f-813f-1e59c2f83f49.png)
 
-
-
-
-![image](https://user-images.githubusercontent.com/62024017/209227689-d7aa55c9-0e19-4d7b-910c-79d3f01caf3e.png)
 
 PROPOSAL:
 
