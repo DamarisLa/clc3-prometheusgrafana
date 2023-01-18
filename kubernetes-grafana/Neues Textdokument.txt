@@ -1,0 +1,1 @@
+kubectl port-forward grafana-64c89f57f7-2r8mk 3000:3000 -n monitoring
