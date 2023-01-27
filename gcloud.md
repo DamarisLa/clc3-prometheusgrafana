@@ -1,25 +1,82 @@
 # Google Cloud with Services already running
 
-Follow steps 1, 6, 8, 9, 10, 12, 14, 15, 17, 19
+Use PowerShell, so you don't need to copy paste the names of the pods.
+1. Log in from your command line with
+    ```console
+    gcloud auth login
+    ```
+
+2. Check if the node is running
+    ```console
+    kubectl get nodes
+    ```
+
+3. Check if pods are running with
+    ```console
+    kubectl get pods --namespace monitoring
+    ```
+
+4. Forward the port of prometheus-server
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=prometheus-server" --output jsonpath='{.items[0].metadata.name}') 8080:9090
+    ```
+    and open [localhost:8080](localhost:8080)
+
+5. Open a new PowerShell and forward the port of alertmanager
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=alertmanager" --output jsonpath='{.items[0].metadata.name}') 8081:9093
+    ```
+    and open [localhost:8081](http://localhost:8081)
+
+6. Open a new PowerShell and forward the port of grafana
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=grafana" --output jsonpath='{.items[0].metadata.name}') 8082:3000
+    ```
+    and open [localhost:8082](http://localhost:8082)
+
+7. Login with<br>
+    Username: admin<br>
+    Password: admin<br>
+    Skip setting new password
+
+8. Open a new PowerShell and forward the port of Application1
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=application1" --output jsonpath='{.items[0].metadata.name}') 8083:8000
+    ```
+    and open for example [localhost:8083/delay/2](http://localhost:8083/delay/2) for a 2 seconds delay
+
+9. Open a new PowerShell and forward the port of Application2
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=application2" --output jsonpath='{.items[0].metadata.name}') 8084:8001
+    ```
+    and open [localhost:8084/](http://localhost:8084/) -> the Service should be Unavailable
+
+
+## Overview of the ports (<localhost:xxxx>):
+* 8080 -> prometheus-server
+* 8081 -> alertmanager
+* 8082 -> grafana
+* 8083 -> Application1 (= Sleep)
+* 8084 -> Application2 (= Not available)
 
 # First setup with Google Cloud
 
 ## Prerequisites
 1. Account in [Google Cloud](http://cloud.google.com/) and start a trial version
 2. Install [Google Cloud SDK](https://cloud.google.com/sdk/install) Run the command: 
-```console
-gcloud version
-```
+    ```console
+    gcloud version
+    ```
 3. If not done before: run the ```kubectl``` installation command
-```console
-gcloud components intall kubectl
-```
+    ```console
+    gcloud components intall kubectl
+    ```
 
 ## Setup Cluster
 1. Log in from your command line with
-```console
-gcloud auth login
-```
+    ```console
+    gcloud auth login
+    ```
 
 2. Open the [Kubernetes Engine Overview](https://console.cloud.google.com/kubernetes)
 
@@ -42,42 +99,64 @@ gcloud auth login
 7. Change to the directory in the git folder and run the commands for <B>Setup Prometheus</B> from the ```README.md``` 
 
 8. Check if it is running with
-```console
-kubectl get pods --namespace monitoring
-```
+    ```console
+    kubectl get pods --namespace monitoring
+    ```
 
 9. Forward the port (change the name of the pod as given in previous step)
-```console
-kubectl port-forward --namespace monitoring prometheus-deployment-5978c4f57-ljm2z 8080:9090
-```
+    ```console
+    kubectl port-forward --namespace monitoring prometheus-deployment-5978c4f57-ljm2z 8080:9090
+    ```
+    or just use Windows PowerShell with
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=prometheus-server" --output jsonpath='{.items[0].metadata.name}') 8080:9090
+    ```
 
-10. Now open the link <localhost:8080> in your browser.
+10. Now open the link [localhost:8080](localhost:8080) in your browser.
 
 11. Continue the ```README.md``` with <B>Setup State Metrics</B> and <B>Setup Alert manager</B>
 Changed in ```kubernetes-alert-manager/Deployment.yaml``` the spec/resources/requests to 100m at cpu and 100M at memory
 
-12. Run step 8 and 9 with alertmanager and port 8081:9093 now the link <localhost:8081> should work
+12. Open a new PowerShell and forward the port of alertmanager
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=alertmanager" --output jsonpath='{.items[0].metadata.name}') 8081:9093
+    ```
+    and open [localhost:8081](http://localhost:8081)
 
 13. Continue the ```README.md``` with <B>Setup Grafana</B>
-Also change in this Deployment cpu and memory to 100m
 
-14. Run step 8 and 9 with grafana and port 8082:3000
+14. Open a new PowerShell and forward the port of grafana
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=grafana" --output jsonpath='{.items[0].metadata.name}') 8082:3000
+    ```
+    and open [localhost:8082](http://localhost:8082)
 
-15. Open the link <localhost:8082> and login with admin admin and skip new password
+15. Login with<br>
+    Username: admin<br>
+    Password: admin<br>
+    Skip setting new password
 
 16. Continue the ```README.md``` with <B>Setup Node Exporter</B> and <B>Setup Application1 (Sleep)</B>
 
-17. Run step 8 and 9 with Application1 and port 8083:8000
+17. Open a new PowerShell and forward the port of Application1
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=application1" --output jsonpath='{.items[0].metadata.name}') 8083:8000
+    ```
+    and open for example [localhost:8083/delay/2](http://localhost:8083/delay/2) for a 2 seconds delay
 
 18. Continue the ```README.md``` with <B>Setup Application2 (Not available)</B>
 
-19. Run step 8 and 9 with Application2 and port 8084:8001
+19. Open a new PowerShell and forward the port of Application2
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=application2" --output jsonpath='{.items[0].metadata.name}') 8084:8001
+    ```
+    and open [localhost:8084/](http://localhost:8084/) -> the Service should be Unavailable
 
 ---------------
 1. For updating a Deployment.yaml run for example
-```console
-kubectl edit deployment alertmanager --namespace monitoring
-```
+    ```console
+    kubectl edit deployment alertmanager --namespace monitoring
+    ```
 
 
 1. Go to Google Cloud / VPC Network / Firewall and create a new Firewall Rule with following settings
