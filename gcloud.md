@@ -1,4 +1,8 @@
-# Start with Google Cloud
+# Google Cloud with Services already running
+
+Follow steps 1, 6, 8, 9, 10, 12, 14, 15, 17, 19
+
+# First setup with Google Cloud
 
 ## Prerequisites
 1. Account in [Google Cloud](http://cloud.google.com/) and start a trial version
@@ -60,6 +64,14 @@ Also change in this Deployment cpu and memory to 100m
 14. Run step 8 and 9 with grafana and port 8082:3000
 
 15. Open the link <localhost:8082> and login with admin admin and skip new password
+
+16. Continue the ```README.md``` with <B>Setup Node Exporter</B> and <B>Setup Application1 (Sleep)</B>
+
+17. Run step 8 and 9 with Application1 and port 8083:8000
+
+18. Continue the ```README.md``` with <B>Setup Application2 (Not available)</B>
+
+19. Run step 8 and 9 with Application2 and port 8084:8001
 
 ---------------
 1. For updating a Deployment.yaml run for example
