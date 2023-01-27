@@ -5,7 +5,7 @@ studyproject: Prometheus &amp; Grafana to observe an application
 
 This readme summarizes the following tuturial: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
 
-## Setup Promethus
+## Setup Prometheus
 
 The following commands must be executed inside the ```kubernetes``` directory:
 
