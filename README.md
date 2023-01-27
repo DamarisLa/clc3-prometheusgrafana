@@ -93,3 +93,21 @@ Check if everthing is working:
 
 ```kubectl get endpoints -n monitoring``` 
 
+## Setup Application1 (Sleep)
+
+The following command must be executed inside the ```kubernetes/application1``` directory:
+
+``` kubectl create -f deployment.yaml -n monitoring```
+
+Requests can be sent to Application1 on any of the kubernetes nodes IP on port 30033.
+The API provided by application1 is described in the ```readme.md``` located inside the ```application1``` folder.
+
+## Setup Application2 (Not available)
+
+The following command must be executed inside the ```kubernetes/application2``` directory:
+
+``` kubectl create -f deployment.yaml -n monitoring```
+
+Requests can be sent to Application1 on any of the kubernetes nodes IP on port 30034.
+Application2 is described in the ```readme.md``` located inside the ```application2``` folder.
+
