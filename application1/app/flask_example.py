@@ -19,15 +19,15 @@ request_time = Histogram(
 
 
 @app.route('/delay')
-@app.route('/delay/<delay_ms>')
+@app.route('/delay/<delay_s>')
 @number_of_value_errors.count_exceptions(ValueError)
 @request_time.time()
-def delayed_response(delay_ms: int = 0):    
+def delayed_response(delay_s: int = 0):
     time1 = datetime.now()
-    delay_ms = int(delay_ms) # throws ValueError when parsing non int literals
+    delay_s = int(delay_s) # throws ValueError when parsing non int literals
         
-    delay_ms = max(0, delay_ms)
-    time.sleep(delay_ms)
+    delay_s = max(0, delay_s)
+    time.sleep(delay_s)
     time2 = datetime.now()
     return jsonify({
            "Starttime" : time1,
