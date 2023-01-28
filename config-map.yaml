@@ -46,6 +46,9 @@ data:
         - source_labels: [__meta_kubernetes_endpoints_name]
           regex: 'node-exporter'
           action: keep
+      - job_name: redis_exporter
+        static_configs:
+        - targets: ['<<REDIS-EXPORTER-HOSTNAME>>:9121']
       
       - job_name: 'kubernetes-apiservers'
         kubernetes_sd_configs:
