@@ -23,8 +23,8 @@ You should now see some statistics regarding the previously started flask applic
 
 Triggers an immediate response
 
-`/delay/<delay_ms>`
+`/delay/<delay_s>`
 
-Triggers a response with user defined delay. Response times are recorded as histogram. Request times are binned into buckets with the label `request_processing_seconds_bucket`.
+Triggers a response with user defined delay. The unit for delays are seconds. Response times are recorded as histogram and therefore binned into buckets with the label `request_processing_seconds_bucket`.
 
-Try to make a request wit non-numeric values for `delay_ms`. This triggers a `ValueError` inside the application. Each  `ValueError` leads to the incrementation of the counter metric `number_of_value_errors_total`.
+Try to make a request wit non-numeric values for `delay_s`. This triggers a `ValueError` inside the application. Each  `ValueError` leads to the incrementation of the counter metric `number_of_value_errors_total`.
