@@ -176,6 +176,8 @@ The redis-exporter is available on any of the kubernetes nodes IP on port 30042.
 With the following command it is possible to connect to the redis-cli of the redis container:
 
 ```kubectl exec -i -t [Pod Name] -n monitoring --container redis -- redis-cli```
+OR just in PowerShell
+```kubectl exec -i -t $(kubectl get pod --namespace monitoring --selector="app=redis" --output jsonpath='{.items[0].metadata.name}') -n monitoring --container redis -- redis-cli```
 
 Use ```kubectl get pods -n monitoring``` to get the name of your redis pod.
 
