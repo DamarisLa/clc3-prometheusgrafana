@@ -7,7 +7,7 @@ This readme summarizes the following tuturial: https://devopscube.com/setup-prom
 
 ## Setup Prometheus
 
-The following commands must be executed inside the ```clc3-prometheusgrafana``` oder ```./``` directory:
+The following commands must be executed inside the ```clc3-prometheusgrafana```  (```./```) directory:
 
 ```kubectl create namespace monitoring```
 
@@ -38,7 +38,7 @@ The prometheus server can now be accessed using any of the kubernetes nodes IP o
 ## Setup State Metrics
 https://devopscube.com/setup-kube-state-metrics/
 
-The following command must be executed inside the ```./``` directory:
+The following command must be executed inside the ```clc3-prometheusgrafana```  (```./```) directory:
 
 ```kubectl apply -f kube-state-metrics-configs/```
 
@@ -113,7 +113,7 @@ The following commands must be executed inside the ```./kubernetes-node-exporter
 
 ```kubectl create -f service.yaml```
 
-Check if everthing is working:
+Check if everything is working:
 
 ```kubectl get daemonset -n monitoring```
 ```
@@ -142,7 +142,7 @@ The following command must be executed inside the ```./application1``` directory
 ``` kubectl create -f deployment.yaml -n monitoring```
 
 Requests can be sent to Application1 on any of the kubernetes nodes IP on port 30033.
-The API provided by application1 is described in the ```readme.md``` located inside the ```application1``` folder.
+The API provided by application1 is described in the ```readme.md``` located inside the ```./application1``` folder.
 ```
 -----------------------------------------------
 deployment.apps/application1-deployment created
@@ -157,7 +157,7 @@ The following command must be executed inside the ```./application2``` directory
 ``` kubectl create -f deployment.yaml -n monitoring```
 
 Requests can be sent to Application2 on any of the kubernetes nodes IP on port 30034.
-Application2 is described in the ```readme.md``` located inside the ```application2``` folder.
+Application2 is described in the ```readme.md``` located inside the ```./application2``` folder.
 
 ```
 -----------------------------------------------
@@ -196,7 +196,7 @@ If you are connected to the redis-cli you can enter the following command to gen
 
 This command creates 5 key value pairs with a value size of 1000 characters. Values are filled up with null chars to reach the specified size.
 
-Run the ```KEYS *``` command to see the created Keys. To inspect the value of a key type ```GET [name of key]```
+Run the ```KEYS *``` command to see the created Keys. To inspect the value of a key type ```GET [name of key]```.
 The following console output shows the expected result from the commands described above. For the sake of readability the output of the ```GET``` command was not documented.
 ````
 >DEBUG POPULATE 5 test 1000
@@ -212,7 +212,7 @@ OK
 > GET test:2
 ````
 
-If you inspect the metrics endpoint of the redis-exporter you should now notice an entry in the section _number of keys  by DB_.
+If you inspect the metrics endpoint of the redis-exporter you should now notice an entry in the section _number of keys by DB_.
 
 ````
 # HELP redis_db_keys Total number of keys by DB
