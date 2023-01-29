@@ -53,6 +53,16 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
     ```
     and open [localhost:8084/](http://localhost:8084/) -> the Service should be Unavailable
 
+11. Open a new PowerShell and open CLI for Redis
+    ```console
+    kubectl exec -i -t $(kubectl get pod --namespace monitoring --selector="app=redis" --output jsonpath='{.items[0].metadata.name}') -n monitoring --container redis -- redis-cli
+    ```
+
+12. Open a new PowerShell and forward the port of Redis
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=redis" --output jsonpath='{.items[0].metadata.name}') 8085:9121
+    ```
+    and open [localhost:8085/metrics](http://locahlost:8085/metrics)
 
 ## Overview of the ports (<localhost:xxxx>):
 * 8080 -> prometheus-server
@@ -60,6 +70,7 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
 * 8082 -> grafana
 * 8083 -> Application1 (= Sleep)
 * 8084 -> Application2 (= Not available)
+* 8085 -> Redis
 
 # First setup with Google Cloud
 
@@ -155,6 +166,13 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
     ```
     and open [localhost:8084/](http://localhost:8084/) -> the Service should be Unavailable
 
+20. Continue the ```README.md``` with <B>Setup Redis</B>
+
+21.  Open a new PowerShell and forward the port of Redis
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=redis" --output jsonpath='{.items[0].metadata.name}') 8085:9121
+    ```
+    and open [localhost:8085/metrics](http://locahlost:8085/metrics)
 
 
 # Create blackbox exporter
