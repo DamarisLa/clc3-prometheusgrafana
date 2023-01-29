@@ -25,10 +25,12 @@ Check if deployment was ok:
 
 ```kubectl get deployments --namespace=monitoring```
 
-----------------------------------------------------------------------------------------------
+```
+------------------------------------------------------------
 NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
 prometheus-deployment   1/1     1            1           10d
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------
+```
 
 The prometheus server can now be accessed using any of the kubernetes nodes IP on port 30000
 
@@ -43,12 +45,12 @@ The following command must be executed inside the ```./``` directory:
 Check if deployment was ok:
 
 ```kubectl get deployments kube-state-metrics -n kube-system```
-
-----------------------------------------------------------------------------------------------
+```
+---------------------------------------------------------
 NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
 kube-state-metrics   1/1     1            1           10d
-----------------------------------------------------------------------------------------------
-
+---------------------------------------------------------
+```
 
 ## Setup Alert manager
 https://devopscube.com/alert-manager-kubernetes-guide/
@@ -67,13 +69,13 @@ The following commands must be executed inside the
 Check if deployment was ok:
 
 ```kubectl get deployments --namespace=monitoring```
-
-----------------------------------------------------------------------------------------------
+```
+------------------------------------------------------------
 NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
 alertmanager            1/1     1            1           10d
 prometheus-deployment   1/1     1            1           10d
-----------------------------------------------------------------------------------------------
-
+------------------------------------------------------------
+```
 The alert manager can now be accessed using any of the kubernetes nodes IP on port 31000
 
 ## Setup Grafana
@@ -90,14 +92,14 @@ The following commands must be executed inside the ```./kubernetes-grafana``` di
 Check if deployment was ok:
 
 ```kubectl get deployments --namespace=monitoring```
-
-----------------------------------------------------------------------------------------------
+```
+------------------------------------------------------------
 NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
 alertmanager            1/1     1            1           10d
 grafana                 1/1     1            1           10d
 prometheus-deployment   1/1     1            1           10d
-----------------------------------------------------------------------------------------------
-
+------------------------------------------------------------
+```
 Grafana can now be accessed using any of the kubernetes nodes IP on port 32000
 
 ## Setup Node Exporter
@@ -114,20 +116,24 @@ The following commands must be executed inside the ```./kubernetes-node-exporter
 Check if everthing is working:
 
 ```kubectl get daemonset -n monitoring```
-----------------------------------------------------------------------------------------------
+```
+----------------------------------------------------------------------------------
 NAME            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
 node-exporter   1         1         1       1            1           <none>          10d
-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+```
 
 ```kubectl get endpoints -n monitoring``` 
 
-----------------------------------------------------------------------------------------------
+```
+-----------------------------------------
 NAME                 ENDPOINTS        AGE
 alertmanager         10.1.0.60:9093   10d
 grafana              10.1.0.55:3000   10d
 node-exporter        10.1.0.62:9100   10d
 prometheus-service   10.1.0.59:9090   10d
-----------------------------------------------------------------------------------------------
+-----------------------------------------
+```
 
 ## Setup Application1 (Sleep)
 
@@ -137,10 +143,12 @@ The following command must be executed inside the ```./application1``` directory
 
 Requests can be sent to Application1 on any of the kubernetes nodes IP on port 30033.
 The API provided by application1 is described in the ```readme.md``` located inside the ```application1``` folder.
-----------------------------------------------------------------------------------------------
+```
+-----------------------------------------------
 deployment.apps/application1-deployment created
 service/application1-service created
-----------------------------------------------------------------------------------------------
+-----------------------------------------------
+```
 
 ## Setup Application2 (Not available)
 
@@ -151,11 +159,12 @@ The following command must be executed inside the ```./application2``` directory
 Requests can be sent to Application2 on any of the kubernetes nodes IP on port 30034.
 Application2 is described in the ```readme.md``` located inside the ```application2``` folder.
 
-----------------------------------------------------------------------------------------------
+```
+-----------------------------------------------
 deployment.apps/application2-deployment created
 service/application2-service created
-----------------------------------------------------------------------------------------------
-
+-----------------------------------------------
+```
 
 ## Setup Redis and Redis Exporter
 https://github.com/oliver006/redis_exporter

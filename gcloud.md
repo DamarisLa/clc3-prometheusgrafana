@@ -168,68 +168,21 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
 
 20. Continue the ```README.md``` with <B>Setup Redis</B>
 
-21.  Open a new PowerShell and forward the port of Redis
+21. Open a new PowerShell and forward the port of Redis
     ```console
     kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=redis" --output jsonpath='{.items[0].metadata.name}') 8085:9121
     ```
     and open [localhost:8085/metrics](http://locahlost:8085/metrics)
 
 
-# Create blackbox exporter
-<https://devopscounsel.com/prometheus-blackbox-exporter-setup-on-kubernetes/>
-
-1. Create blackbox.yaml file
-
-2. Run
-    ```console
-    kubectl apply -f blackbox.yaml 
-    ```
-3. Run
-    ```console
-    kubectl get configmaps -n monitoring
-    ```
-
-4. Run
-    ```console
-    kubectl edit configmap prometheus-server-conf -n monitoring
-    ```
-
-5. Change following (THIS DOESN'T WORK, YET)
-    ```
-    - job_name: 'kube-api-blackbox'
-        metrics_path: /probe
-        params:
-          module: [http_2xx]
-        static_configs:
-         - targets:
-            - http://localhost:8084/
-            - http://localhost:8083/delay
-            - https://prometheus.io
-        relabel_configs:
-        - source_labels: [__address__]
-          target_label: __param_target
-        - source_labels: [__param_target]
-          target_label: instance
-        - target_label: __address__
-          replacement: blackbox-exporter.elk.svc.cluster.local:9115
-    ```
-
-6. Restart deployment
-    ```console
-     kubectl get deployments -n monitoring
-     ```
-     ```console
-    kubectl rollout restart deployment prometheus-deployment -n monitoring
-     ```
 
 ---------------
-1. For updating a Deployment.yaml run for example
-    ```console
-    kubectl edit deployment alertmanager --namespace monitoring
-    ```
+For updating a Deployment.yaml run for example
+```console
+kubectl edit deployment alertmanager --namespace monitoring
+```
 
-
-1. Go to Google Cloud / VPC Network / Firewall and create a new Firewall Rule with following settings
-
-    ![K8s Cluster in GKE](./img/gcloud_04.PNG)
-    ![K8s Cluster in GKE](./img/gcloud_05.PNG)
+For deleting (= restarting) -> change [POD-NAME]
+```console
+kubectl delete pod $(kubectl get pod --namespace monitoring --selector="app=[POD-NAME]" --output jsonpath='{.items[0].metadata.name}') -n monitoring
+```
