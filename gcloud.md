@@ -51,7 +51,12 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
     ```
     and open [localhost:8084/](http://localhost:8084/) -> the Service should be Unavailable
 
-10. Open a new PowerShell and forward the port of Redis
+10. Open a new PowerShell and open CLI for Redis
+    ```console
+    kubectl exec -i -t $(kubectl get pod --namespace monitoring --selector="app=redis" --output jsonpath='{.items[0].metadata.name}') -n monitoring --container redis -- redis-cli
+    ```
+
+11. Open a new PowerShell and forward the port of Redis
     ```console
     kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=redis" --output jsonpath='{.items[0].metadata.name}') 8085:9121
     ```
