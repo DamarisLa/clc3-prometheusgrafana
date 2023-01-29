@@ -115,7 +115,7 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
     kubectl get nodes
     ```
 
-7. Change to the directory in the git folder and run the commands for <B>Setup Prometheus</B> from the ```README.md``` 
+7. Change to the directory in the git folder and run the commands for <B>Setup Prometheus</B> from the ```setup_prometheus_example.md``` 
 
 8. Check if it is running with
     ```console
@@ -129,7 +129,7 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
 
 10. Now open the link [localhost:8080](localhost:8080) in your browser.
 
-11. Continue the ```README.md``` with <B>Setup State Metrics</B> and <B>Setup Alert manager</B>
+11. Continue the ```setup_prometheus_example.md``` with <B>Setup State Metrics</B> and <B>Setup Alert manager</B>
 
 12. Open a new PowerShell and forward the port of alertmanager
     ```console
@@ -137,7 +137,7 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
     ```
     and open [localhost:8081](http://localhost:8081)
 
-13. Continue the ```README.md``` with <B>Setup Grafana</B>
+13. Continue the ```setup_prometheus_example.md``` with <B>Setup Grafana</B>
 
 14. Open a new PowerShell and forward the port of grafana
     ```console
@@ -150,7 +150,7 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
     Password: admin<br>
     Skip setting new password
 
-16. Continue the ```README.md``` with <B>Setup Node Exporter</B> and <B>Setup Application1 (Sleep)</B>
+16. Continue the ```setup_prometheus_example.md``` with <B>Setup Node Exporter</B> and <B>Setup Application1 (Sleep)</B>
 
 17. Open a new PowerShell and forward the port of Application1
     ```console
@@ -158,7 +158,7 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
     ```
     and open for example [localhost:8083/delay/2](http://localhost:8083/delay/2) for a 2 seconds delay
 
-18. Continue the ```README.md``` with <B>Setup Application2 (Not available)</B>
+18. Continue the ```setup_prometheus_example.md``` with <B>Setup Application2 (Not available)</B>
 
 19. Open a new PowerShell and forward the port of Application2
     ```console
@@ -166,7 +166,7 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
     ```
     and open [localhost:8084/](http://localhost:8084/) -> the Service should be Unavailable
 
-20. Continue the ```README.md``` with <B>Setup Redis</B>
+20. Continue the ```setup_prometheus_example.md``` with <B>Setup Redis</B>
 
 21. Open a new PowerShell and forward the port of Redis
     ```console
