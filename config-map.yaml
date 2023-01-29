@@ -152,4 +152,4 @@ data:
       
       - job_name: 'redis_exporter'
         static_configs:
-        - targets: ['redis:9121']
+        - targets: ['redis-exporter-service.monitoring.svc:9121']
