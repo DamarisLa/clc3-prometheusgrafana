@@ -1,230 +1,188 @@
-# clc3-prometheusgrafana
-studyproject: Prometheus &amp; Grafana to observe an application
+# Google Cloud with Services already running
 
-# Prometheus-Stack Setup
+Use PowerShell, so you don't need to copy paste the names of the pods.
+1. Log in from your command line with
+    ```console
+    gcloud auth login
+    ```
 
-This readme summarizes the following tuturial: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+2. Connect: at <https://console.cloud.google.com/kubernetes> click on the 3 dots and select connect, copy the command-line statement and run it in your PowerShell
 
-## Setup Prometheus
+3. Check if the node is running
+    ```console
+    kubectl get nodes
+    ```
 
-The following commands must be executed inside the ```clc3-prometheusgrafana``` oder ```./``` directory:
+4. Check if pods are running with
+    ```console
+    kubectl get pods --namespace monitoring
+    ```
 
-```kubectl create namespace monitoring```
+5. Forward the port of prometheus-server
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=prometheus-server" --output jsonpath='{.items[0].metadata.name}') 8080:9090
+    ```
+    and open [localhost:8080](localhost:8080)
 
-```kubectl create -f clusterRole.yaml```
+6. Open a new PowerShell and forward the port of alertmanager
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=alertmanager" --output jsonpath='{.items[0].metadata.name}') 8081:9093
+    ```
+    and open [localhost:8081](http://localhost:8081)
 
-```kubectl create -f config-map.yaml```
+7. Open a new PowerShell and forward the port of grafana
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=grafana" --output jsonpath='{.items[0].metadata.name}') 8082:3000
+    ```
+    and open [localhost:8082](http://localhost:8082)
 
-```kubectl create  -f prometheus-deployment.yaml```
+8. Login with<br>
+    Username: admin<br>
+    Password: admin<br>
+    Skip setting new password
 
-```kubectl get deployments --namespace=monitoring```
+9. Open a new PowerShell and forward the port of Application1
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=application1" --output jsonpath='{.items[0].metadata.name}') 8083:8000
+    ```
+    and open for example [localhost:8083/delay/2](http://localhost:8083/delay/2) for a 2 seconds delay
 
-```kubectl create -f prometheus-service.yaml --namespace=monitoring```
+10. Open a new PowerShell and forward the port of Application2
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=application2" --output jsonpath='{.items[0].metadata.name}') 8084:8001
+    ```
+    and open [localhost:8084/](http://localhost:8084/) -> the Service should be Unavailable
 
-Check if deployment was ok:
+11. Open a new PowerShell and open CLI for Redis
+    ```console
+    kubectl exec -i -t $(kubectl get pod --namespace monitoring --selector="app=redis" --output jsonpath='{.items[0].metadata.name}') -n monitoring --container redis -- redis-cli
+    ```
 
-```kubectl get deployments --namespace=monitoring```
+12. Open a new PowerShell and forward the port of Redis
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=redis" --output jsonpath='{.items[0].metadata.name}') 8085:9121
+    ```
+    and open [localhost:8085/metrics](http://locahlost:8085/metrics)
 
+## Overview of the ports (<localhost:xxxx>):
+* 8080 -> prometheus-server
+* 8081 -> alertmanager
+* 8082 -> grafana
+* 8083 -> Application1 (= Sleep)
+* 8084 -> Application2 (= Not available)
+* 8085 -> Redis
+
+# First setup with Google Cloud
+
+## Prerequisites
+1. Account in [Google Cloud](http://cloud.google.com/) and start a trial version
+2. Install [Google Cloud SDK](https://cloud.google.com/sdk/install) Run the command: 
+    ```console
+    gcloud version
+    ```
+3. If not done before: run the ```kubectl``` installation command
+    ```console
+    gcloud components intall kubectl
+    ```
+
+## Setup Cluster
+1. Log in from your command line with
+    ```console
+    gcloud auth login
+    ```
+
+2. Open the [Kubernetes Engine Overview](https://console.cloud.google.com/kubernetes)
+
+3. Click on *Create Cluster* and select "Standard: you manage your cluster"
+
+4. Create a cluster with the *default* settings except for the *Number of nodes* where you only need 1:
+
+    ![K8s Cluster in GKE](./img/gcloud_01.PNG)
+    ![K8s Cluster in GKE](./img/gcloud_02.PNG)
+    ![K8s Cluster in GKE](./img/gcloud_03.PNG)
+
+    Standard machine type is
+    ![Nodes](./img/gcloud_03_machine1.PNG)
+
+    Changed the Machine type to e2-standard-4 so CPU should be no problem in future
+    ![Nodes](./img/gcloud_03_machine2.PNG)
+
+5. As soon as your cluster is ready, click on *Connect* and copy and paste this command into your terminal
+
+6. Now your `kubectl` (i.e., the Kubernetes command-line tool) should be configured for your cluster. In order to verify this, execute the command: 
+
+    ```console
+    kubectl get nodes
+    ```
+
+7. Change to the directory in the git folder and run the commands for <B>Setup Prometheus</B> from the ```README.md``` 
+
+8. Check if it is running with
+    ```console
+    kubectl get pods --namespace monitoring
+    ```
+
+9. Forward the port
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=prometheus-server" --output jsonpath='{.items[0].metadata.name}') 8080:9090
+    ```
+
+10. Now open the link [localhost:8080](localhost:8080) in your browser.
+
+11. Continue the ```README.md``` with <B>Setup State Metrics</B> and <B>Setup Alert manager</B>
+
+12. Open a new PowerShell and forward the port of alertmanager
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=alertmanager" --output jsonpath='{.items[0].metadata.name}') 8081:9093
+    ```
+    and open [localhost:8081](http://localhost:8081)
+
+13. Continue the ```README.md``` with <B>Setup Grafana</B>
+
+14. Open a new PowerShell and forward the port of grafana
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=grafana" --output jsonpath='{.items[0].metadata.name}') 8082:3000
+    ```
+    and open [localhost:8082](http://localhost:8082)
+
+15. Login with<br>
+    Username: admin<br>
+    Password: admin<br>
+    Skip setting new password
+
+16. Continue the ```README.md``` with <B>Setup Node Exporter</B> and <B>Setup Application1 (Sleep)</B>
+
+17. Open a new PowerShell and forward the port of Application1
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=application1" --output jsonpath='{.items[0].metadata.name}') 8083:8000
+    ```
+    and open for example [localhost:8083/delay/2](http://localhost:8083/delay/2) for a 2 seconds delay
+
+18. Continue the ```README.md``` with <B>Setup Application2 (Not available)</B>
+
+19. Open a new PowerShell and forward the port of Application2
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=application2" --output jsonpath='{.items[0].metadata.name}') 8084:8001
+    ```
+    and open [localhost:8084/](http://localhost:8084/) -> the Service should be Unavailable
+
+20. Continue the ```README.md``` with <B>Setup Redis</B>
+
+21. Open a new PowerShell and forward the port of Redis
+    ```console
+    kubectl port-forward --namespace monitoring $(kubectl get pod --namespace monitoring --selector="app=redis" --output jsonpath='{.items[0].metadata.name}') 8085:9121
+    ```
+    and open [localhost:8085/metrics](http://locahlost:8085/metrics)
+
+
+
+---------------
+For updating a Deployment.yaml run for example
+```console
+kubectl edit deployment alertmanager --namespace monitoring
 ```
-------------------------------------------------------------
-NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
-prometheus-deployment   1/1     1            1           10d
-------------------------------------------------------------
+
+For deleting (= restarting) -> change [POD-NAME]
+```console
+kubectl delete pod $(kubectl get pod --namespace monitoring --selector="app=[POD-NAME]" --output jsonpath='{.items[0].metadata.name}') -n monitoring
 ```
-
-The prometheus server can now be accessed using any of the kubernetes nodes IP on port 30000
-
-
-## Setup State Metrics
-https://devopscube.com/setup-kube-state-metrics/
-
-The following command must be executed inside the ```./``` directory:
-
-```kubectl apply -f kube-state-metrics-configs/```
-
-Check if deployment was ok:
-
-```kubectl get deployments kube-state-metrics -n kube-system```
-```
----------------------------------------------------------
-NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
-kube-state-metrics   1/1     1            1           10d
----------------------------------------------------------
-```
-
-## Setup Alert manager
-https://devopscube.com/alert-manager-kubernetes-guide/
-
-The following commands must be executed inside the 
-```./kubernetes-alert-manager``` directory:
-
-```kubectl create -f AlertManagerConfigmap.yaml```
-
-```kubectl create -f AlertTemplateConfigMap.yaml```
-
-```kubectl create -f Deployment.yaml```
-
-```kubectl create -f Service.yaml```
-
-Check if deployment was ok:
-
-```kubectl get deployments --namespace=monitoring```
-```
-------------------------------------------------------------
-NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
-alertmanager            1/1     1            1           10d
-prometheus-deployment   1/1     1            1           10d
-------------------------------------------------------------
-```
-The alert manager can now be accessed using any of the kubernetes nodes IP on port 31000
-
-## Setup Grafana
-https://devopscube.com/setup-grafana-kubernetes/
-
-The following commands must be executed inside the ```./kubernetes-grafana``` directory:
-
-```kubectl create -f grafana-datasource-config.yaml```
-
-```kubectl create -f deployment.yaml```
-
-```kubectl create -f service.yaml```
-
-Check if deployment was ok:
-
-```kubectl get deployments --namespace=monitoring```
-```
-------------------------------------------------------------
-NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
-alertmanager            1/1     1            1           10d
-grafana                 1/1     1            1           10d
-prometheus-deployment   1/1     1            1           10d
-------------------------------------------------------------
-```
-Grafana can now be accessed using any of the kubernetes nodes IP on port 32000
-
-## Setup Node Exporter
-https://devopscube.com/node-exporter-kubernetes/
-
-https://www.civo.com/learn/kubernetes-node-monitoring-with-prometheus-and-grafana
-
-The following commands must be executed inside the ```./kubernetes-node-exporter``` directory:
-
-```kubectl create -f daemonset.yaml```
-
-```kubectl create -f service.yaml```
-
-Check if everthing is working:
-
-```kubectl get daemonset -n monitoring```
-```
-----------------------------------------------------------------------------------
-NAME            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
-node-exporter   1         1         1       1            1           <none>          10d
------------------------------------------------------------------------------------
-```
-
-```kubectl get endpoints -n monitoring``` 
-
-```
------------------------------------------
-NAME                 ENDPOINTS        AGE
-alertmanager         10.1.0.60:9093   10d
-grafana              10.1.0.55:3000   10d
-node-exporter        10.1.0.62:9100   10d
-prometheus-service   10.1.0.59:9090   10d
------------------------------------------
-```
-
-## Setup Application1 (Sleep)
-
-The following command must be executed inside the ```./application1``` directory:
-
-``` kubectl create -f deployment.yaml -n monitoring```
-
-Requests can be sent to Application1 on any of the kubernetes nodes IP on port 30033.
-The API provided by application1 is described in the ```readme.md``` located inside the ```application1``` folder.
-```
------------------------------------------------
-deployment.apps/application1-deployment created
-service/application1-service created
------------------------------------------------
-```
-
-## Setup Application2 (Not available)
-
-The following command must be executed inside the ```./application2``` directory:
-
-``` kubectl create -f deployment.yaml -n monitoring```
-
-Requests can be sent to Application2 on any of the kubernetes nodes IP on port 30034.
-Application2 is described in the ```readme.md``` located inside the ```application2``` folder.
-
-```
------------------------------------------------
-deployment.apps/application2-deployment created
-service/application2-service created
------------------------------------------------
-```
-
-## Setup Redis and Redis Exporter
-https://github.com/oliver006/redis_exporter
-
-https://github.com/oliver006/redis_exporter/blob/master/contrib/k8s-redis-and-exporter-deployment.yaml
-
-https://www.metricfire.com/blog/how-to-monitor-redis-performance/#span-stylefontweight-400Setting-up-Prometheus-to-send-data-to-Hosted-Prometheusspan
-
-The following command must be executed inside the ```./redis``` directory:
-
-```kubectl create -f deployment.yaml -n monitoring```
-
-
-This command starts a pod containing redis and redis exporter container.
-
-The redis-exporter is available on any of the kubernetes nodes IP on port 30042.
-
-With the following command it is possible to connect to the redis-cli of the redis container:
-
-```kubectl exec -i -t [Pod Name] -n monitoring --container redis -- redis-cli```
-OR just in PowerShell
-```kubectl exec -i -t $(kubectl get pod --namespace monitoring --selector="app=redis" --output jsonpath='{.items[0].metadata.name}') -n monitoring --container redis -- redis-cli```
-
-Use ```kubectl get pods -n monitoring``` to get the name of your redis pod.
-
-If you are connected to the redis-cli you can enter the following command to generate some data:
-
-```DEBUG POPULATE 5 test 1000```
-
-This command creates 5 key value pairs with a value size of 1000 characters. Values are filled up with null chars to reach the specified size.
-
-Run the ```KEYS *``` command to see the created Keys. To inspect the value of a key type ```GET [name of key]```
-The following console output shows the expected result from the commands described above. For the sake of readability the output of the ```GET``` command was not documented.
-````
->DEBUG POPULATE 5 test 1000
-OK
-> KEYS *
-1) "test:2"
-2) "test:0"
-3) "test:4"
-4) "test:3"
-5) "test:1"
-> STRLEN test:2
-(integer) 1000
-> GET test:2
-````
-
-If you inspect the metrics endpoint of the redis-exporter you should now notice an entry in the section _number of keys  by DB_.
-
-````
-# HELP redis_db_keys Total number of keys by DB
-# TYPE redis_db_keys gauge
-redis_db_keys{db="db0"} 5
-redis_db_keys{db="db1"} 0
-redis_db_keys{db="db10"} 0
-redis_db_keys{db="db11"} 0
-````
-
-Database 0 should now contain five keys.
-
-To visualize Redis Metrics in Grafana one can use the import number ID: 763 (import Dashboard)
-https://grafana.com/grafana/dashboards/763-redis-dashboard-for-prometheus-redis-exporter-1-x/
-

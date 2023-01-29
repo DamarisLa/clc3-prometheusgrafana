@@ -17,8 +17,8 @@ data:
     - name: alert-emailer
       email_configs:
       - to: 'receiver_mail_id@gmail.com'
-        from: 'reyna2@ethereal.email'
+        from: 'ari.moen@ethereal.email'
         smarthost: smtp.ethereal.email:587
-        auth_username: 'reyna2@ethereal.email'
-        auth_identity: 'reyna2@ethereal.email'
-        auth_password: 'TCUZzzxV7duSKZxDgF'
+        auth_username: 'ari.moen@ethereal.email'
+        auth_identity: 'ari.moen@ethereal.email'
+        auth_password: 'TxqGqaDA3g6MQbJkVy'
