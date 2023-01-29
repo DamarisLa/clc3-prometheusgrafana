@@ -12,6 +12,9 @@ spec:
       app: application2
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8001"
       labels:
         app: application2
     spec:
