@@ -137,7 +137,7 @@ Use PowerShell, so you don't need to copy paste the names of the pods.
     ```
     and open [localhost:8081](http://localhost:8081)
 
-13. Continue the ```setup_prometheus_example.md``` with <B>Setup Grafana</B>
+13. Continue the ```setup_prometheus_example.md``` with <B>Setup Grafana</B>. For setup the Grafana Dashboards see ```grafana_dashboard.md```
 
 14. Open a new PowerShell and forward the port of grafana
     ```console
