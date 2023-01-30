@@ -1,11 +1,11 @@
-# clc3-prometheusgrafana
-studyproject: Prometheus &amp; Grafana to observe an application
-
 # Prometheus-Stack Setup
 
-This readme summarizes the following tuturial: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+Study-project: Use Prometheus &amp; Grafana to observe applications in a Kubernetes Cluster.
+
+The following instructions describe how to set up the components used in this project.
 
 ## Setup Prometheus
+https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
 
 The following commands must be executed inside the ```clc3-prometheusgrafana```  (```./```) directory:
 
